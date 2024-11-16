@@ -54,8 +54,8 @@ material_stats = load_stats()
 
 def train_model(data):
     # Используем только проводимость как признак для обучения
-    X = np.array([row[3] for row in data]).reshape(-1, 1)  # Проводимость как единственный признак
-    y = np.array([row[4] for row in data])  # Классы материалов
+    X = np.array([row[3] for row in data]).reshape(-1, 1)
+    y = np.array([row[4] for row in data])
     model = DecisionTreeClassifier()
     model.fit(X, y)
     return model
@@ -92,20 +92,17 @@ def add_new_data():
         messagebox.showerror("Ошибка", f"Ошибка ввода: {e}")
 
 def show_statistics():
-    stats_text.config(state=tk.NORMAL)  # Разрешаем редактирование
+    stats_text.config(state=tk.NORMAL)
     stats_text.delete(1.0, tk.END)
     stats_text.insert(tk.END, "Статистика добавленных материалов:\n")
     for key, value in material_stats.items():
         stats_text.insert(tk.END, f"{material_classes[key]}: {value} объектов\n")
-    stats_text.config(state=tk.DISABLED)  # Отключаем редактирование
+    stats_text.config(state=tk.DISABLED)
 
 def classify_object_auto():
     try:
-        # Используем только проводимость для классификации
         conductivity = float(entry_conductivity.get())
-
-        # Вводим только проводимость для классификации
-        input_data = np.array([[conductivity]])  # Проводимость как единственный признак
+        input_data = np.array([[conductivity]])
         predicted_class = model.predict(input_data)[0]
 
         messagebox.showinfo("Результат", f"Результат классификации: {material_classes[predicted_class]}")
@@ -119,14 +116,12 @@ def create_ui():
     window.resizable(False, False)
     window.configure(bg="#e0f7fa")
 
-    # Header
     header_frame = tk.Frame(window, bg="#004d40")
     header_frame.pack(fill=tk.X)
 
     header_label = tk.Label(header_frame, text="Классификатор материалов", bg="#004d40", fg="white", font=('Arial', 16))
     header_label.pack(pady=10)
 
-    # Frame for input fields
     frame_inputs = tk.Frame(window, bg="#e0f7fa")
     frame_inputs.pack(padx=10, pady=10, fill=tk.X)
 
@@ -158,7 +153,6 @@ def create_ui():
     material_menu = tk.OptionMenu(frame_inputs, combo_material, *material_options)
     material_menu.grid(row=4, column=1)
 
-    # Frame for buttons
     frame_buttons = tk.Frame(window, bg="#e0f7fa")
     frame_buttons.pack(padx=10, pady=5, fill=tk.X)
 
@@ -173,7 +167,6 @@ def create_ui():
     button_show_stats = tk.Button(frame_buttons, text="Показать статистику", command=show_statistics, **button_style)
     button_show_stats.pack(pady=5)
 
-    # Frame for statistics display
     frame_stats = tk.Frame(window, bg="#e0f7fa")
     frame_stats.pack(padx=10, pady=10, fill=tk.X)
 
